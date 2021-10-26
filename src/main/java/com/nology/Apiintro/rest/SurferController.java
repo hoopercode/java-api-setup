@@ -53,12 +53,20 @@ public class SurferController {
 
     }
 
-    @DeleteMapping("surfers/{id}")
-    public String deleteSurfer(@PathVariable int id){
+    @DeleteMapping("/surfers/{id}")
+    public ResponseEntity<List<Surfer>> deleteSurfer(@PathVariable int id) {
 
+        int toRemove = -1;
 
-        fakeSurferDatabase.remove(id-1);
-        return "You just deleted surf with ID: " + id;
+        for (int i = 0; i < fakeSurferDatabase.size(); i++) {
+            if (fakeSurferDatabase.get(i).getId() == id) {
+                toRemove = i;
+            }
+        }
+
+        fakeSurferDatabase.remove(toRemove);
+
+        return ResponseEntity.status(200).body(fakeSurferDatabase);
     }
 
 }
